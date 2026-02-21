@@ -195,7 +195,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   constructor(private messageService: MessageService, private router: Router) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.currentUser = sessionStorage.getItem('chatUser') || '';
     if (!this.currentUser) {
       this.router.navigate(['/login']);
@@ -224,11 +224,11 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     this.scrollToBottom();
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     if (this.wsSubscription) {
       this.wsSubscription.unsubscribe();
     }
@@ -241,14 +241,14 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     } catch (err) { }
   }
 
-  loadMessages() {
+  loadMessages(): void {
     this.messageService.getMessages().subscribe({
       next: (data) => this.messages = data,
       error: () => this.router.navigate(['/login'])
     });
   }
 
-  sendMessage() {
+  sendMessage(): void {
     if (!this.newMessage.trim()) return;
     this.messageService.postMessage(this.newMessage).subscribe(() => {
       // For optimizing: we could just wait for the websocket to echo it back!
@@ -260,7 +260,7 @@ export class ChatComponent implements OnInit, AfterViewChecked, OnDestroy {
     });
   }
 
-  logout() {
+  logout(): void {
     sessionStorage.clear();
     this.router.navigate(['/login']);
   }
